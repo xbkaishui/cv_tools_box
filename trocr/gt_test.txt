@@ -1,0 +1,13 @@
+file_name,text
+1.png,26461
+1_gan.png,26461
+2.png,3T3205
+2_gan.png,3T3205
+3.png,26461
+3_gan.png,26461
+4.png,4T3205
+4_gan.png,4T3205
+5.png,4T3206
+5_gan.png,4T3206
+6.png,26461
+6_gan.png,26461
