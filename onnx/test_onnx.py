@@ -43,13 +43,14 @@ class SuperResolutionNet(nn.Module):
 def export_model():
     # 实例化模型
     torch_model = SuperResolutionNet(upscale_factor=3)
-    model_url = 'superres_epoch100-44c6958e.pth'
+    model_url = '/Users/xbkaishui/opensource/cv_hz/cv_tools_box/onnx/superres_epoch100-44c6958e.pth'
     batch_size = 1    # just a random number
     # 加载预训练得到权重
     map_location = lambda storage, loc: storage
     if torch.cuda.is_available():
         map_location = None
-    torch_model.load_state_dict(torch.load(model_url, map_location=map_location))
+    # torch_model.load_state_dict(torch.load(model_url, map_location=map_location))
+    torch_model.load_state_dict(torch.load(model_url, map_location="cpu"))
 
     # 将模型设置为推理模式
     torch_model.eval()
@@ -62,6 +63,7 @@ def export_model():
                     x,             # model input (or a tuple for multiple inputs)
                     "super_resolution.onnx",   # where to save the model (can be a file or file-like object)
                     export_params=True,        # store the trained parameter weights inside the model file
+                    verbose = True,
                     opset_version=15,   # the ONNX version to export the model to
                     do_constant_folding=True,  # whether to execute constant folding for optimization
                     input_names = ['input'],   # the model's input names
@@ -85,7 +87,7 @@ def inference():
 
     img_ycbcr = img.convert('YCbCr')
     img_y, img_cb, img_cr = img_ycbcr.split()
-
+    logger.info("img_y shape {}", img_y.size)
     to_tensor = transforms.ToTensor()
     img_y = to_tensor(img_y)
     img_y.unsqueeze_(0)
@@ -109,5 +111,5 @@ def inference():
     final_img.save("cat_superres_with_ort.jpg")
 
 if __name__ == '__main__':
-    # export_model()
-    inference()
+    export_model()
+    # inference()
