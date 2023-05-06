@@ -80,7 +80,7 @@ def to_numpy(tensor):
 def inference():
     ort_session = onnxruntime.InferenceSession("super_resolution.onnx")
     # 读取图片
-    img = Image.open("test_sr.png")
+    img = Image.open("/Users/xbkaishui/opensource/cv_hz/cv_tools_box/onnx/test_sr.png")
     # 对图片进行resize操作
     resize = transforms.Resize([224, 224])
     img = resize(img)
@@ -111,5 +111,5 @@ def inference():
     final_img.save("cat_superres_with_ort.jpg")
 
 if __name__ == '__main__':
-    export_model()
-    # inference()
+    # export_model()
+    inference()
