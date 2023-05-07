@@ -17,7 +17,8 @@ https://github.com/huggingface/tokenizers/tree/main
 
 
 
-
+## training with accelerate
+https://huggingface.co/learn/nlp-course/chapter3/4?fw=pt
 
 
 
