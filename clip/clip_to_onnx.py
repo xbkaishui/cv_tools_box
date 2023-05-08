@@ -16,10 +16,12 @@ try:
     BICUBIC = InterpolationMode.BICUBIC
 except ImportError:
     BICUBIC = Image.BICUBIC
-    
+
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 logger.info(onnxruntime.get_device()) # priority device
-
 
 def _convert_image_to_rgb(image):
     return image.convert("RGB")
