@@ -1,2 +1,3 @@
 onnx/cat_superres_with_ort.jpg
 onnx/*.onnx
+clip/*.onnx
