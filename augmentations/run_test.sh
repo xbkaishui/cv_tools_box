@@ -1,0 +1,1 @@
+pytest aug.py -s

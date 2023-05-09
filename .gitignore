@@ -1,3 +1,5 @@
 onnx/cat_superres_with_ort.jpg
 onnx/*.onnx
 clip/*.onnx
+augmentations/__pycache__
+augmentations/.pytest_cache
