@@ -30,6 +30,37 @@ def calc_array_hash(arr):
     md5_hash = hashlib.md5(arr_bytes).hexdigest()
     return md5_hash
 
+def test_exposure():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    import albumentations as A
+    import cv2
+    transform = A.Compose([
+        # A.CenterCrop(width=256, height=256),
+        A.RandomGamma(p=.3, gamma_limit=(50, 120))
+    ])
+    image = cv2.imread(f'{dir_path}/pics/center-crop-orig.jpg')
+    for i in range(10):
+        transformed_image = transform(image=image)["image"]
+        ts_image_hash = calc_array_hash(transformed_image)
+        print(ts_image_hash)
+        cv2.imwrite(f'{dir_path}/pics/test-crop-{i}.jpg', transformed_image)
+    ...
+    
+def test_random_grip():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    import albumentations as A
+    import cv2
+    transform = A.Compose([
+        # A.CenterCrop(width=256, height=256),
+        A.RandomTile(p=1, grid=(2, 2))
+    ])
+    image = cv2.imread(f'{dir_path}/pics/center-crop-orig.jpg')
+    for i in range(10):
+        transformed_image = transform(image=image)["image"]
+        ts_image_hash = calc_array_hash(transformed_image)
+        print(ts_image_hash)
+        cv2.imwrite(f'{dir_path}/pics/test-crop-{i}.jpg', transformed_image)
+    ...
     
 def test_compose_aug():
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -38,10 +69,13 @@ def test_compose_aug():
     transform = A.Compose([
         A.CenterCrop(width=256, height=256),
         A.HorizontalFlip(p=.5),
-        A.RandomBrightnessContrast(p=.2),
+        # 对比度
+        A.Equalize(p=.5),
+        A.RandomBrightnessContrast(p=1),
+
     ])
     image = cv2.imread(f'{dir_path}/pics/center-crop-orig.jpg')
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     for i in range(10):
         transformed_image = transform(image=image)["image"]
         ts_image_hash = calc_array_hash(transformed_image)
@@ -52,4 +86,6 @@ def test_compose_aug():
 if __name__ == '__main__':
     # test_center_crop()
     # test_horizontal_flip()
-    test_compose_aug()
+    # test_compose_aug()
+    # test_exposure()
+    test_random_grip()
