@@ -5,3 +5,4 @@ augmentations/__pycache__
 augmentations/.pytest_cache
 **/pics/*
 img_preprocess/__pycache__
+tfs/onnx
