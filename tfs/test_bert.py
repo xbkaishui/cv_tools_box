@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import List
 from transformers import pipeline
 from loguru import logger
 from transformers import AutoTokenizer
@@ -100,7 +101,7 @@ def create_model_for_provider(model_path: str, provider: str) -> InferenceSessio
 
 
 @contextmanager
-def track_infer_time(buffer: [int]):
+def track_infer_time(buffer: List[int]):
     start = time()
     yield
     end = time()
@@ -110,7 +111,7 @@ def track_infer_time(buffer: [int]):
 
 @dataclass
 class OnnxInferenceResult:
-  model_inference_time: [int]  
+  model_inference_time: List[int]  
   optimized_model_path: str
   
 def test_infer_with_onnx():
