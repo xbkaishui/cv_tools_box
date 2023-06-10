@@ -21,5 +21,9 @@ https://github.com/huggingface/tokenizers/tree/main
 https://huggingface.co/learn/nlp-course/chapter3/4?fw=pt
 
 
+## export to onnx 
+https://github.com/huggingface/notebooks/blob/main/examples/onnx-export.ipynb
+
 
 ### refer [link](https://huggingface.co/learn/nlp-course/chapter2/2?fw=pt)
+
