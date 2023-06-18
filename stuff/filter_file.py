@@ -4,7 +4,7 @@ import time
 from loguru import logger
 
 
-def filter_files_by_creation_time(directory, before_threshold_timestamp, after_threshold_timestamp):
+def filter_files_by_modify_time(directory, before_threshold_timestamp, after_threshold_timestamp):
     filtered_files = []
     for root, dirs, files in os.walk(directory):
         for file in files:
@@ -22,7 +22,7 @@ threshold_date = '2023-06-06'  # 过滤阈值日期
 before_threshold_timestamp = time.mktime(time.strptime(threshold_date, '%Y-%m-%d'))
 after_threshold_timestamp = time.mktime(time.strptime('2023-06-07', '%Y-%m-%d'))
 
-filtered_files = filter_files_by_creation_time(directory_path, before_threshold_timestamp, after_threshold_timestamp)
+filtered_files = filter_files_by_modify_time(directory_path, before_threshold_timestamp, after_threshold_timestamp)
 # for file in filtered_files:
 #     print(file)
 
