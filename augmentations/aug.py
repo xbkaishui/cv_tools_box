@@ -4,12 +4,14 @@ import numpy as np
 from loguru import logger
 import warnings
 import os
+import cv2
+import pytest
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
 def test_center_crop():
-    transform =albu.CenterCrop(200,200,p=1) #set height, width, and probability
-    image = np.array(Image.open('pics/center-crop-orig.jpg'))
+    transform =albu.CenterCrop(1500,1500,p=1) #set height, width, and probability
+    image = np.array(Image.open('/Users/xbkaishui/Desktop/73_2.bmp'))
     image = transform(image=image)['image']
     logger.info("img shape {}, img type {}", image.shape, type(image))
     img = Image.fromarray(image)
@@ -82,10 +84,23 @@ def test_compose_aug():
         print(ts_image_hash)
         cv2.imwrite(f'{dir_path}/pics/test-crop-{i}.jpg', transformed_image)
 
+def test_random_rotation():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    import albumentations as A
+    transform = A.Compose([
+        A.Rotate(limit=190, p=1, border_mode=cv2.BORDER_CONSTANT)  # 限制旋转角度在 -30 到 +30 之间
+    ])
+    image = cv2.imread(f'{dir_path}/73.bmp')
+    for i in range(20):
+        transformed_image = transform(image=image)["image"]
+        cv2.imwrite(f'{dir_path}/pics/test-rotation-{i}.jpg', transformed_image)
+        
+    
     
 if __name__ == '__main__':
-    # test_center_crop()
+    test_center_crop()
     # test_horizontal_flip()
     # test_compose_aug()
     # test_exposure()
-    test_random_grip()
+    # test_random_grip()
+    # test_random_rotation()
