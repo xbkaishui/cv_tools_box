@@ -26,6 +26,16 @@ def test_horizontal_flip():
     img = Image.fromarray(augmented_image)
     img.save('pics/horizontal-flip.jpg')
 
+
+def test_vertical_flip():
+    transform =albu.VerticalFlip(p=1)
+    image = np.array(Image.open('pics/test.bmp'))
+    augmented_image = transform(image=image)['image']
+    logger.info("img shape {}, img type {}", image.shape, type(image))
+    img = Image.fromarray(augmented_image)
+    img.save('pics/vertical-flip.jpg')
+
+
 def calc_array_hash(arr):
     import hashlib
     arr_bytes = arr.tobytes()
