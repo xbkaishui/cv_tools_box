@@ -9,3 +9,5 @@ tfs/onnx
 **/__pycache__/*
 **/.DS_Store/*
 .DS_Store
+yolo_onnx/best.onnx
+yolo_onnx/best.pt
