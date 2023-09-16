@@ -6,6 +6,11 @@ import os
 from pathlib import Path
 import numpy as np
 import math 
+from sahi.slicing import slice_image
+from sahi.utils.file import load_json
+
+from PIL import Image, ImageDraw
+import matplotlib.pyplot as plt
 
 
 def avg_filter_img():
@@ -37,7 +42,7 @@ def resize_imgs():
     input_file_dir = '/Users/xbkaishui/opensource/cv_hz/cv_tools_box/ocr_text_gen/output'
     output_dir = "./resize_output"
 
-    input_file_dir = '/Users/xbkaishui/opensource/cv_hz/cv_tools_box/ocr_text_gen/backup'
+    input_file_dir = '/Users/xbkaishui/opensource/cv_hz/cv_tools_box/ocr_text_gen/output'
     output_dir = "./backup_resize_output"
     
     os.makedirs(output_dir, exist_ok=True)
@@ -48,7 +53,7 @@ def resize_imgs():
     for img_file in img_files:
         logger.info("handle file {}", img_file)
         img = cv2.imread(img_file)
-        resize_img, _ = resize_image_with_ratio(img, 1024, 200)
+        resize_img, _ = resize_image_with_ratio(img, 4096, 800)
         cv2.imwrite(f'{output_dir}/{Path(img_file).stem}.jpg', resize_img)
     
 
@@ -96,6 +101,24 @@ def crop_img():
     
     ...
     
+def slice_img():
+    input_img_path = '/Users/xbkaishui/opensource/cv_hz/cv_tools_box/ocr_text_gen/backup_resize_output/001.jpg'
+    slice_image_result = slice_image(
+            image=input_img_path,
+            coco_annotation_list=None,
+            output_file_name="slice",
+            output_dir="/tmp/slices",
+            slice_height=1024,
+            slice_width=800,
+            overlap_height_ratio=0,
+            overlap_width_ratio=0,
+            min_area_ratio=0.1,
+            out_ext=".jpg",
+            verbose=True,
+        )
+    logger.info(f"slice_image_result: {slice_image_result}")
+    ...
+    
 def centor_crop():
         from PIL import Image
         import PIL.Image
@@ -125,5 +148,6 @@ def centor_crop():
 if __name__ == '__main__':
     # crop_img()
     # avg_filter_img()
-    resize_imgs()
+    # resize_imgs()
     # centor_crop()
+    slice_img()
