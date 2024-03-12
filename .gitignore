@@ -14,3 +14,4 @@ yolo_onnx/best.pt
 ocr_text_gen/**/*.png
 ocr_text_gen/**/*.jpg
 ocr_text_gen/resize_output/
+fastsam_test/FastSAM-x.engine
