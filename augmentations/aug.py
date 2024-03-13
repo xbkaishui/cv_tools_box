@@ -19,9 +19,9 @@ def test_center_crop():
     
     
 def test_horizontal_flip():
-    transform =albu.HorizontalFlip(p=0.5)
-    image = np.array(Image.open('pics/center-crop-orig.jpg'))
-    augmented_image = transform(image=image)['image']
+    transform =albu.HorizontalFlip(p=1)
+    image = np.array(Image.open('/opt/product/cv_tools_box/augmentations/pics/center-crop-orig.jpg'))
+    augmented_image = transform(image=image[None])['image']
     logger.info("img shape {}, img type {}", image.shape, type(image))
     img = Image.fromarray(augmented_image)
     img.save('pics/horizontal-flip.jpg')
@@ -108,8 +108,8 @@ def test_random_rotation():
     
     
 if __name__ == '__main__':
-    test_center_crop()
-    # test_horizontal_flip()
+    # test_center_crop()
+    test_horizontal_flip()
     # test_compose_aug()
     # test_exposure()
     # test_random_grip()
