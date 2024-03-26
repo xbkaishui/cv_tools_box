@@ -98,9 +98,9 @@ def test_random_rotation():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     import albumentations as A
     transform = A.Compose([
-        A.Rotate(limit=190, p=1, border_mode=cv2.BORDER_CONSTANT)  # 限制旋转角度在 -30 到 +30 之间
+        A.Rotate(limit=180, p=1, border_mode=cv2.BORDER_CONSTANT)  # 限制旋转角度在 -30 到 +30 之间
     ])
-    image = cv2.imread(f'{dir_path}/73.bmp')
+    image = cv2.imread(f'{dir_path}/pics/center-crop-orig.jpg')
     for i in range(20):
         transformed_image = transform(image=image)["image"]
         cv2.imwrite(f'{dir_path}/pics/test-rotation-{i}.jpg', transformed_image)
@@ -109,8 +109,8 @@ def test_random_rotation():
     
 if __name__ == '__main__':
     # test_center_crop()
-    test_horizontal_flip()
+    # test_horizontal_flip()
     # test_compose_aug()
     # test_exposure()
     # test_random_grip()
-    # test_random_rotation()
+    test_random_rotation()
