@@ -7,6 +7,7 @@ import os
 import cv2
 import pytest
 
+
 warnings.filterwarnings("ignore", category=UserWarning)
 
 def test_center_crop():
@@ -98,14 +99,70 @@ def test_random_rotation():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     import albumentations as A
     transform = A.Compose([
-        A.Rotate(limit=180, p=1, border_mode=cv2.BORDER_CONSTANT)  # 限制旋转角度在 -30 到 +30 之间
+        A.Rotate(limit=180, p=1, border_mode=cv2.BORDER_CONSTANT, rotate_method="ellipse")  # 限制旋转角度在 -30 到 +30 之间
     ])
     image = cv2.imread(f'{dir_path}/pics/center-crop-orig.jpg')
     for i in range(20):
         transformed_image = transform(image=image)["image"]
         cv2.imwrite(f'{dir_path}/pics/test-rotation-{i}.jpg', transformed_image)
         
+
+def rotate_img(source_img_path, angle:int = 90):
+    """rotate image based on center point
+
+    Args:
+        source_img_path (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     
+    if type(source_img_path) == str:
+        image = cv2.imread(source_img_path)
+    else:
+        image = source_img_path
+        
+    original_height, original_width = image.shape[:2]
+
+    # 计算旋转后的新宽度和高度
+    center = (original_width / 2, original_height / 2)
+    scale = 1.0  # 缩放因子
+
+    # 获取旋转矩阵
+    M = cv2.getRotationMatrix2D(center, angle, scale)
+
+    # 因为旋转90度，宽高会交换，所以需要调整旋转矩阵的输出大小
+    M[0, 2] += (original_height - original_width) / 2
+    M[1, 2] += (original_width - original_height) / 2
+
+    rotated = cv2.warpAffine(image, M, (original_height, original_width), borderMode=cv2.BORDER_CONSTANT, borderValue=(0, 0, 0))
+    return rotated
+
+def test_ratation():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    # 读取图像
+    image = cv2.imread(f'{dir_path}/pics/1715036373794.jpg')
+    # 定义旋转角度
+    angle = 90
+    # 定义旋转转换
+    transform = albu.Compose([
+        albu.SafeRotate(limit=(angle,angle), border_mode=cv2.BORDER_CONSTANT, value=0, p=1)
+    ])
+
+    rotate_img = transform(image=image)['image']
+    # 将旋转后的图像保存到文件
+    cv2.imwrite(f'{dir_path}/pics/test-safe-rotation.jpg', rotate_img)
+    
+    
+def test_rotate_img():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    # 读取图像
+    image = cv2.imread(f'{dir_path}/pics/1715036373794.jpg')
+    from scipy.ndimage import rotate as rotate_image
+    rotated_img = rotate_image(image,-45)
+
+    # rotated_img = rotate_img(image, 90)
+    cv2.imwrite(f'{dir_path}/pics/test-safe-rotation.jpg', rotated_img)
     
 if __name__ == '__main__':
     # test_center_crop()
@@ -113,4 +170,6 @@ if __name__ == '__main__':
     # test_compose_aug()
     # test_exposure()
     # test_random_grip()
-    test_random_rotation()
+    # test_random_rotation()
+    test_ratation()
+    # test_rotate_img()
